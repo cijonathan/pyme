@@ -1,0 +1,18 @@
+<?php echo $this->action('top','proyecto','default');?>
+<ul class="breadcrumb">
+    <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'tablero','action'=>'index'),'',true);?>">Tablero</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'proyecto','action'=>'index'),'',true);?>">Proyectos</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'proyecto','action'=>'index'),'',true);?>">Proyecto: <strong><?php echo $this->datos->nombre_empresa;?></strong></a>  <span class="divider">/</span></li>
+    <li class="active">Crear modulo</li>
+</ul>
+<div class="well">
+    <?php if($this->error) :?>
+        <div class="alert alert-error">
+            <a class="close" data-dismiss="alert" href="#">&times;</a>
+            <h2>¡Avispate!</h2>Este modulo ya fue creado anteriormente.
+        </div>        
+    <?php endif;?>
+    <h3>Crear módulo</h3>
+    <p>Ingrese los siguientes datos para crear un módulo en el proyecto</p>
+    <?php echo $this->formulario;?>
+</div>

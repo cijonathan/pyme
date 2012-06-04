@@ -1,0 +1,19 @@
+<?php echo $this->action('top','proyecto','default');?>
+<ul class="breadcrumb">
+    <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'tablero','action'=>'index'),'',true);?>">Tablero</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'proyecto','action'=>'index'),'',true);?>">Proyectos</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'proyecto','action'=>'index'),'',true);?>">Proyecto: <?php echo $this->datos->nombre_empresa;?></a>  <span class="divider">/</span></li>
+    <li class="active">Relaciones</li>
+</ul>
+<div class="page-header">
+    <h3>Relaciones de los módulos</h3>
+</div>
+<div class="span4">
+    <div class="well">
+        <h4>Crear relaciones</h4>
+        <?php echo $this->formulario;?>
+    </div>
+</div>
+<div class="span7">
+    
+</div>

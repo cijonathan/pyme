@@ -1,0 +1,11 @@
+<?php echo $this->action('top','usuario','default');?>
+<ul class="breadcrumb">
+    <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'tablero','action'=>'index'),'',true);?>">Tablero</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'usuario','action'=>'index'),'',true);?>">Usuarios sistema</a> <span class="divider">/</span></li>
+    <li class="active">Crear usuario</li>
+</ul>
+<div class="well">
+    <h3>Crear usuario</h3>
+    <p>Ingrese los siguientes datos para crear un usuario en el sistema</p>
+    <?php echo $this->formulario_usuario;?>
+</div>

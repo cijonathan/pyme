@@ -1,0 +1,58 @@
+<?php echo $this->action('top','proyecto','default');?>
+<ul class="breadcrumb">
+    <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'tablero','action'=>'index'),'',true);?>">Tablero</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'proyecto','action'=>'index'),'',true);?>">Proyectos</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'proyecto','action'=>'index'),'',true);?>">Proyecto: <strong><?php echo $this->datos->nombre_empresa;?></strong></a>  <span class="divider">/</span></li>
+    <li class="active">Modulos</li>
+</ul>
+<a href="<?php echo $this->url(array('module'=>'default','controller'=>'proyecto','action'=>'crearmodulo','id'=>$this->id),'',true);?>" class="btn btn-success btn-small pull-right abajo-bottom"><strong>CREAR MODULO</strong></a>
+<div class="page-header">
+    <h3>Módulos del proyecto</h3>
+</div>
+<?php if($this->exito) :?>   
+    <div class="alert alert-success">
+        <a class="close" data-dismiss="alert" href="#">&times;</a>
+        <h2>¡De otro planeta!</h2>Eres un mágico. ¡Que <strong>Messi</strong>! ¡Que <strong>Alexis Sánchez</strong>! ¡Que <strong>Cristiano Ronaldo</strong>!
+    </div>        
+<?php endif;?> 
+<table class="table table-striped table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Estado</th>
+            <th class="span2">Acciones</th>            
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($this->modulos as $retorno) :?>            
+        <tr>
+            <td><?php echo $retorno->nombre_modulo;?></td>
+            <td><?php echo $retorno->nombre_estado;?></td>
+            <td>
+                <div class="btn-group">
+                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="icon-pencil"></i> Opciones <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'proyecto','action'=>'crearcampo','id'=>$retorno->id_empresa,'idmodulo'=>$retorno->id_modulo),'',true);?>"><i class="icon-tag"></i> Campos</a></li>
+                    <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'proyecto','action'=>'componentes','id'=>$retorno->id_empresa,'idmodulo'=>$retorno->id_modulo),'',true);?>"><i class="icon-folder-close"></i> Componentes</a></li>
+                    <li><a href="#myModal<?php echo $retorno->id_modulo;?>" data-toggle="modal"><i class="icon-question-sign"></i> Estado</a></li>
+                </ul>
+                </div>                
+            </td>
+        </tr>      
+        <?php endforeach;?>
+    </tbody>
+</table>
+<?php foreach($this->modulos as $retorno) :?>    
+    <div class="modal" id="myModal<?php echo $retorno->id_modulo;?>" style="display: none">
+        <div class="modal-header">
+            <a href="#" class="close" data-dismiss="modal">×</a>
+            <h3>Modificaciones estado del modulo</h3>
+            <h3><small>Esta opción se vera ejecutada al momento de entrar al CMS</small></h3>
+        </div>
+        <div class="modal-body">
+            <?php echo $this->formulario->populate(array('id_modulo'=>$retorno->id_modulo,'id_estado'=>$retorno->id_estado));?>
+        </div>
+    </div>  
+<?php endforeach;?>

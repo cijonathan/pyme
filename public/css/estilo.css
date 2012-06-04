@@ -1,0 +1,24 @@
+/*!
+ * Estilo 0.1
+ *
+ * Copyright 2012 Creatividad e Inteligencia
+ *
+ */
+ .abajo{
+     margin-top: 10px
+ }
+ .abajo-bottom{
+     margin-bottom: 10px     
+ }
+ #formulario-login,.zend_form{
+     margin-bottom: 0 !important;
+ }
+ .creditos{
+     text-align: right;
+     font-size: 11px !important;
+ }
+ .footer{
+    border-top: 1px solid #E5E5E5;
+    margin-top: 25px;
+    padding: 5px 0 0 0;     
+ }

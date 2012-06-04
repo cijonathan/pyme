@@ -7,6 +7,58 @@
 <?php echo $this->headScript();echo "\n"; ?>  
 </head>
 <body>
-    <?php echo $this->layout()->content; ?>
+    <div class="container">
+        <div class="row abajo">
+            <div class="span4">
+                <img alt="" src="http://placehold.it/200x50">
+            </div>
+            <div class="span8">
+                <div class="row pull-right">
+                    ¡ Bienvenido ! <strong><?php echo $this->email_usuario;?></strong> |
+                    <a href="<?php echo $this->url(array('module'=>'default','controller'=>'tablero','action'=>'cerrar'),'',true);?>">Cerrar sesión</a>
+                </div>
+            </div>
+        </div>
+        <div class="navbar abajo">
+            <div class="navbar-inner">
+                <div class="container">
+                    <ul class="nav">
+                        <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'tablero','action'=>'index'),'',true);?>">Tablero</a></li>
+                        <li class="divider-vertical"></li>                         
+                        <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'proyecto','action'=>'index'),'',true);?>">Proyectos</a></li>
+                        <li class="divider-vertical"></li>                         
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                Mantenedores<b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-header">Generales</li>
+                                <li><a href="#"><i class="icon-list-alt"></i> Tipos de modulo</a></li>
+                                <li><a href="#"><i class="icon-list-alt"></i> Estado de modulo</a></li>
+                                <li><a href="#"><i class="icon-list-alt"></i> Idiomas</a></li>
+                                <li><a href="#"><i class="icon-list-alt"></i> Componentes</a></li>
+                                <li class="divider"></li>
+                                <li class="nav-header">#campo</li>
+                                <li><a href="#"><i class="icon-list-alt"></i> Tipos</a></li>
+                                <li><a href="#"><i class="icon-list-alt"></i> Validaciones</a></li>
+                                <li class="divider"></li>
+                                <li class="nav-header">#usuario</li>
+                                <li><a href="#"><i class="icon-list-alt"></i> Tipos</a></li>
+                            </ul> 
+                        </li>
+                        <li class="divider-vertical"></li>                         
+                        <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'usuario','action'=>'index'),'',true);?>">Usuarios sistema</a></li>
+                    </ul>
+                </div>
+            </div>            
+        </div>
+        <?php echo $this->layout()->content; ?>
+        <div style="clear: both"></div>
+        <div class="row-fluid footer">
+            <div class="pull-right creditos">
+                <strong>PYME</strong> 0.1 BETA - Desarrollo Área Digital
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,0 +1,17 @@
+<?php echo $this->action('top','proyecto','default');?>
+<ul class="breadcrumb">
+    <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'tablero','action'=>'index'),'',true);?>">Tablero</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'proyecto','action'=>'index'),'',true);?>">Proyectos</a> <span class="divider">/</span></li>
+    <li class="active">Crear proyecto</li>
+</ul>
+<div class="well">
+    <?php if($this->error) :?>
+        <div class="alert alert-error">
+            <a class="close" data-dismiss="alert" href="#">&times;</a>
+            <h2>¡Avispate!</h2>Este proyecto ya fue creado anteriormente.
+        </div>        
+    <?php endif;?>
+    <h3>Crear proyecto</h3>
+    <p>Ingrese los siguientes datos para crear un proyecto en el sistema</p>
+    <?php echo $this->formulario_proyecto;?>
+</div>

@@ -1,4 +1,0 @@
-pyme
-====
-
-CMS Pyme
