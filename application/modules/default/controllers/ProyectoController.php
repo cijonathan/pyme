@@ -351,6 +351,8 @@ class ProyectoController extends Zend_Controller_Action
         $formulario = new Default_Form_Relacion(array('id_empresa'=>$id));
         $formulario->populate(array('id_empresa'=>$id));
         $this->view->formulario = $formulario;
+        /* [INSTANCREAR] */
+        $relacion = new Default_Model_DbTable_Relacion();
         /* [PROCESAR FORMULARIO] */
         $respuesta = $this->getRequest();
         if($respuesta->isPost()){
@@ -368,7 +370,6 @@ class ProyectoController extends Zend_Controller_Action
                     'id_cardinalidad'=>$id_cardinalidad
                 );
                 /* [RELACION] */
-                $relacion = new Default_Model_DbTable_Relacion();
                 if($relacion->crear($datos)){
                     $this->view->exito = true;
                 }else{
@@ -376,6 +377,8 @@ class ProyectoController extends Zend_Controller_Action
                 }
             }   
         }
+        /* [LISTAR RELACIONES] */
+        $this->view->datosrelacion = $relacion->listar($id);
     }
     public function estadoAction(){
         /* [DESAHIBILITAR LAYOUT y VIEW] */

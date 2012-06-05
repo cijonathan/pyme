@@ -4,6 +4,63 @@ class Default_Model_DbTable_Relacion extends Zend_Db_Table_Abstract
 {
     protected $_name = 'modulo_relacion';
     
+    public function listar($id){
+        if(is_numeric($id)){
+            /* [INSTANCEAR BASE PERSONALIZADA] */
+            $base = $this->base();    
+            /* [CONSULTA] */
+            $consulta = $base->select()->from(array('mr'=>$this->_name),'*')
+                    #->joinInner(array('m'=>'modulo'),'mr.id_padre = m.id_modulo',array('nombre_padre'=>'m.nombre_modulo'))
+                    #->joinInner(array('mrt'=>'modulo_relacion_tipo'),'mr.id_relacion = mrt.id_tipo',array('nombre_relacion'=>'mrt.nombre_tipo'))
+                    #->joinInner(array('mrc'=>'modulo_relacion_cardinalidad'),'mr.id_cardinalidad = mrc.id_cardinalidad',array('nombre_cardinalidad'=>'mrc.nombre_cardinalidad'))
+                    ->order('mr.id_relacion ASC');
+            $datos = array();
+            foreach($base->fetchAll($consulta) as $retorno){
+                $fila = new stdClass();
+                $fila->id_relacion = $retorno->id_relacion;
+                $fila->nombre_padre = $this->gethijo($retorno->id_padre);
+                $fila->nombre_hijo = $this->gethijo($retorno->id_hijo);
+                $fila->nombre_relacion = $this->getrelacion($retorno->id_tipo);
+                $fila->nombre_cardinalidad = $this->getcardinalidad($retorno->id_cardinalidad);
+                $datos[] = $fila;
+            }            
+            return $datos;
+        }
+    }
+    private function getrelacion($id){
+        if(is_numeric($id)){
+            /* [INSTANCEAR BASE PERSONALIZADA] */
+            $base = $this->base();    
+            /* [CONSULTA] */
+            $consulta = $base->select()->from(array('mrt'=>'modulo_relacion_tipo'),array('nombre_relacion'=>'mrt.nombre_tipo'))
+                    ->where('id_tipo = ?',$id);
+            $dato = $consulta->query()->fetch();
+            return $dato->nombre_relacion;
+        }
+    }
+    private function getcardinalidad($id){
+        if(is_numeric($id)){
+            /* [INSTANCEAR BASE PERSONALIZADA] */
+            $base = $this->base();    
+            /* [CONSULTA] */
+            $consulta = $base->select()->from(array('mrc'=>'modulo_relacion_cardinalidad'),array('nombre_cardinalidad'=>'mrc.nombre_cardinalidad'))
+                    ->where('id_cardinalidad = ?',$id);
+            $dato = $consulta->query()->fetch();
+            return $dato->nombre_cardinalidad;
+        }
+    }        
+    private function gethijo($id){
+        if(is_numeric($id)){
+            /* [INSTANCEAR BASE PERSONALIZADA] */
+            $base = $this->base();    
+            /* [CONSULTA] */
+            $consulta = $base->select()->from(array('m'=>'modulo'),array('nombre_modulo'=>'m.nombre_modulo'))
+                    ->where('id_modulo = ?',$id);
+            $dato = $consulta->query()->fetch();
+            return $dato->nombre_modulo;
+        }
+    }
+    
     public function listarTipo(){
         /* [INSTANCEAR BASE PERSONALIZADA] */
         $base = $this->base();
@@ -40,25 +97,46 @@ class Default_Model_DbTable_Relacion extends Zend_Db_Table_Abstract
             $modulohijo = $modulo->obtener($hijo);      
             /* [INSTANCEAR BASE PERSONALIZADA] */
             $base = $this->basepersonalizado($modulopadre->id_empresa);
+            /* [DATOS PERSONALIZADOS] */
+            $empresa = new Default_Model_DbTable_Proyecto();
+            $datosempresa = $empresa->obtener($modulopadre->id_empresa);
             /* [ULTIMO CAMPO] */
             $columnas = array_keys($base->describeTable($modulohijo->nombre_modulo_slug));
             $campo_final = $columnas[(count($columnas)-2)-1];
             /* [TIPO CARDINALIDAD] */
             if($cardinalidad == 1 || $cardinalidad == 3){
                 /* [CREACION DE CAMPO] */
-                $consulta = "ALTER TABLE `".$modulohijo->nombre_modulo_slug."` ADD `id_".$modulopadre->nombre_modulo_slug."` INT NULL AFTER `".$campo_final."`";                
-                /* [CLAVE FOREANA]*/
-                /*$estructura .="INDEX `fk_".$modulopadre->nombre_modulo_slug."_relacion_".$modulohijo->nombre_modulo_slug."_galeria` (`id_".$datosmodulo->nombre_modulo_slug."` ASC) ,";
-                $estructura .="CONSTRAINT `fk_".$datosmodulo->nombre_modulo_slug."_relacion_".$datosmodulo->nombre_modulo_slug."_galeria`";
-                $estructura .="FOREIGN KEY (`id_".$datosmodulo->nombre_modulo_slug."` )";
-                $estructura .="REFERENCES `".$datosproyecto->basededatos_empresa."`.`".$datosmodulo->nombre_modulo_slug."` (`id_".$datosmodulo->nombre_modulo_slug."` )";
-                $estructura .=" ON DELETE NO ACTION ON UPDATE NO ACTION";*/
+                $estructura = "ALTER TABLE `".$modulohijo->nombre_modulo_slug."` ADD `id_".$modulopadre->nombre_modulo_slug."` INT NULL AFTER `".$campo_final."`;";                
+                $estructura .= "ALTER TABLE `".$modulohijo->nombre_modulo_slug."` ";
+                $estructura .= "ADD CONSTRAINT `fk_".$modulohijo->nombre_modulo_slug."_".$modulopadre->nombre_modulo_slug."` FOREIGN KEY (`id_".$modulopadre->nombre_modulo_slug."`) REFERENCES `".$modulopadre->nombre_modulo_slug."` (`id_".$modulopadre->nombre_modulo_slug."`) ON DELETE CASCADE ON UPDATE CASCADE;";
             }elseif($cardinalidad == 2){
+                $estructura = "CREATE  TABLE IF NOT EXISTS `".$datosempresa->basededatos_empresa."`.`".$modulopadre->nombre_modulo_slug."_has_".$modulohijo->nombre_modulo_slug."` (";
+                $estructura .= "`id_".$modulopadre->nombre_modulo_slug."` INT NULL ,";
+                $estructura .= "`id_".$modulohijo->nombre_modulo_slug."` INT NULL ,";
+                $estructura .= " PRIMARY KEY (`id_".$modulohijo->nombre_modulo_slug."`, `id_".$modulopadre->nombre_modulo_slug."`) ,";
+                $estructura .= " INDEX `fk_".$modulohijo->nombre_modulo_slug."_".$modulopadre->nombre_modulo_slug."` (`id_".$modulopadre->nombre_modulo_slug."` ASC) ,";
+                $estructura .= " INDEX `fk_".$modulopadre->nombre_modulo_slug."_".$modulohijo->nombre_modulo_slug."` (`id_".$modulohijo->nombre_modulo_slug."` ASC) ,";
+                $estructura .= " CONSTRAINT `fk_".$modulohijo->nombre_modulo_slug."_".$modulopadre->nombre_modulo_slug."`";
+                    $estructura .= " FOREIGN KEY (`id_".$modulohijo->nombre_modulo_slug."` )";
+                    $estructura .= " REFERENCES `".$datosempresa->basededatos_empresa."`.`".$modulohijo->nombre_modulo_slug."` (`id_".$modulohijo->nombre_modulo_slug."` )";
+                    $estructura .= " ON DELETE NO ACTION";
+                    $estructura .= " ON UPDATE NO ACTION,";
+                $estructura .= " CONSTRAINT `fk_".$modulopadre->nombre_modulo_slug."_".$modulohijo->nombre_modulo_slug."`";
+                    $estructura .= " FOREIGN KEY (`id_".$modulopadre->nombre_modulo_slug."` )";
+                    $estructura .= " REFERENCES `".$datosempresa->basededatos_empresa."`.`".$modulopadre->nombre_modulo_slug."` (`id_".$modulopadre->nombre_modulo_slug."` )";
+                    $estructura .= " ON DELETE NO ACTION";
+                    $estructura .= " ON UPDATE NO ACTION)";
+                $estructura .= " ENGINE = MyISAM";
                 
             }else{
                 return false;
             }
-            echo $consulta;
+            /* [EJECUTAR] */
+            if($base->query($estructura)){
+                return true;
+            }else{
+                return false;
+            }
         }
     }
     private function base(){

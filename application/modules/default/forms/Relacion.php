@@ -22,7 +22,7 @@ class Default_Form_Relacion extends Zend_Form
         
         $id_padre = new Zend_Form_Element_Select('id_padre');
         $id_padre ->setRequired(true)
-                ->setLabel('Modulo:');        
+                ->setLabel('Modulo padre:');        
         
         foreach($modulo->listar($this->getAttrib('id_empresa')) as $retorno){
             $id_padre->addMultiOption($retorno->id_modulo,$retorno->nombre_modulo);
@@ -30,7 +30,7 @@ class Default_Form_Relacion extends Zend_Form
         
         $id_hijo = new Zend_Form_Element_Select('id_hijo');
         $id_hijo ->setRequired(true)
-                ->setLabel('Modulo:');        
+                ->setLabel('Modulo hijo:');        
         
         foreach($modulo->listar($this->getAttrib('id_empresa')) as $retorno){
             $id_hijo->addMultiOption($retorno->id_modulo,$retorno->nombre_modulo);
