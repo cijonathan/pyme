@@ -14,7 +14,8 @@ class Default_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
                     'clave_empresa'=>'e.clave_empresa',
                     'basededatos_empresa'=>'e.basededatos_empresa',
                     'url_empresa'=>'e.url_empresa',
-                    'servidor_empresa'=>'e.servidor_empresa'))
+                    'servidor_empresa'=>'e.servidor_empresa',
+                    'id_estado'=>'e.id_estado'))
                 ->order('e.nombre_empresa ASC');
         $datos = array();
         foreach($this->fetchAll($consulta) as $retorno){
@@ -26,6 +27,7 @@ class Default_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
             $fila->basededatos_empresa = $retorno->basededatos_empresa;
             $fila->url_empresa = $retorno->url_empresa;
             $fila->servidor_empresa = $retorno->servidor_empresa;
+            $fila->id_estado = $retorno->id_estado;
             $datos[] = $fila;
         }
         return $datos;
@@ -99,6 +101,15 @@ class Default_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
             $fila->url_empresa = $retorno['url_empresa'];
             $fila->servidor_empresa = $retorno['servidor_empresa'];      
             return $fila;
+        }
+    }
+    public function actualizarestado($id_empresa,$id_estado){
+        if(is_numeric($id_empresa) && is_numeric($id_estado)){
+            if($this->update(array('id_estado'=>$id_estado),'id_empresa = '.$id_empresa)){
+                return true;
+            }else {
+                return false;
+            }            
         }
     }
     private function existe($usuario,$base){

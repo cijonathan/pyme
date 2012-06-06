@@ -13,6 +13,25 @@ class ProyectoController extends Zend_Controller_Action
         /* [LISTAR] */
         $proyecto = new Default_Model_DbTable_Proyecto();
         $this->view->datos = $proyecto->listar();
+        /* [FORMULARIO] */
+        $formulario = new Default_Form_Estadoproyecto();
+        $this->view->formulario = $formulario;
+        /* [PROCESAR FORMULARIO] */
+        $respuesta = $this->getRequest();
+        if($respuesta->isPost()){
+            if($formulario->isValid($this->_request->getPost())){   
+                /* [DATOS] */
+                $id_empresa = $formulario->getValue('id_empresa');
+                $id_estado = $formulario->getValue('id_estado');
+                /* [PROCESAR ESTADO] */
+                $proyecto = new Default_Model_DbTable_Proyecto();
+                if($proyecto->actualizarestado($id_empresa, $id_estado)){
+                    $this->view->exito = true;
+                }else{
+                    $this->view->error = true;                    
+                }
+            }
+        }
     }
     public function crearAction(){
         /* [TITLE] */             
@@ -340,6 +359,14 @@ class ProyectoController extends Zend_Controller_Action
         }
     }
     public function relacionAction(){
+        /* [EXITO DESDE OTRO LADO] */
+        $exito = new Zend_Session_Namespace("exito");        
+        $this->view->exito = $exito->mensaje;       
+        $exito->setExpirationSeconds(1);  
+        /* [ERROR DESDE OTRO LADO] */
+        $exito = new Zend_Session_Namespace("error");        
+        $this->view->error = $exito->mensaje;       
+        $exito->setExpirationSeconds(1);        
         /* [TITLE] */             
         $this->view->headTitle()->prepend('Crear relacion del modulo - ');   
         /* [PARAMETROS] */
@@ -380,6 +407,34 @@ class ProyectoController extends Zend_Controller_Action
         /* [LISTAR RELACIONES] */
         $this->view->datosrelacion = $relacion->listar($id);
     }
+    public function eliminarelacionAction(){
+        /* [DESAHIBILITAR LAYOUT y VIEW] */
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true); 
+        /* [PARAMETROS] */
+        $id = $this->_getParam('id',0);
+        /* [OBTENER DATOS] */
+        $relacion = new Default_Model_DbTable_Relacion();
+        $modulo = new Default_Model_DbTable_Modulo();
+        $id_modulo = $relacion->obtener($id)->id_padre;
+        $id_proyecto = $modulo->obtener($id_modulo)->id_empresa;
+        /* [INSTANCEAR BASE] */
+        $relacion = new Default_Model_DbTable_Relacion();
+        if($relacion->eliminar($id)){   
+            /* [EXITO] */
+            $exito = new Zend_Session_Namespace("exito");
+            $exito->mensaje = true;
+            /* [REDIRECCIONAR] */
+            $this->_redirect('proyecto/relacion/id/'.$id_proyecto);             
+        }else{     
+            /* [EXITO] */
+            $error = new Zend_Session_Namespace("error");
+            $error->mensaje = true;
+            /* [REDIRECCIONAR] */
+            $this->_redirect('proyecto/relacion/id/'.$id_proyecto);              
+        }
+        
+    }        
     public function estadoAction(){
         /* [DESAHIBILITAR LAYOUT y VIEW] */
         $this->_helper->layout()->disableLayout();

@@ -13,6 +13,7 @@ class Default_Model_DbTable_Relacion extends Zend_Db_Table_Abstract
                     #->joinInner(array('m'=>'modulo'),'mr.id_padre = m.id_modulo',array('nombre_padre'=>'m.nombre_modulo'))
                     #->joinInner(array('mrt'=>'modulo_relacion_tipo'),'mr.id_relacion = mrt.id_tipo',array('nombre_relacion'=>'mrt.nombre_tipo'))
                     #->joinInner(array('mrc'=>'modulo_relacion_cardinalidad'),'mr.id_cardinalidad = mrc.id_cardinalidad',array('nombre_cardinalidad'=>'mrc.nombre_cardinalidad'))
+                    #->where($cond, $base)
                     ->order('mr.id_relacion ASC');
             $datos = array();
             foreach($base->fetchAll($consulta) as $retorno){
@@ -26,6 +27,42 @@ class Default_Model_DbTable_Relacion extends Zend_Db_Table_Abstract
             }            
             return $datos;
         }
+    }
+    public function eliminar($id){
+        if(is_numeric($id)){   
+            /* [DATOS] */
+            $modulo = new Default_Model_DbTable_Modulo();
+            $datos = $this->obtener($id);
+            /* [DATOS DE LOS MODULOS] */
+            $datoshijo = $modulo->obtener($datos->id_hijo);
+            $datospadre = $modulo->obtener($datos->id_padre);
+            /* [COMBINACIONES] */
+            if($datos->id_cardinalidad == 1 || $datos->id_cardinalidad == 3){
+                $estructura = "ALTER TABLE `".$datoshijo->nombre_modulo_slug."` DROP `id_".$datospadre->nombre_modulo_slug."`;";
+                $estructura .= "ALTER TABLE `".$datoshijo->nombre_modulo_slug."` DROP INDEX `fk_".$datoshijo->nombre_modulo_slug."_".$datospadre->nombre_modulo_slug."`";
+            }elseif($datos->id_cardinalidad == 2){
+                $estructura = "DROP TABLE `".$datospadre->nombre_modulo_slug."_has_".$datoshijo->nombre_modulo_slug."`;";
+            }else{
+                return false;
+            }
+            /* [BASE PERSONALIZADA TABLA] */
+            $base = $this->basepersonalizado($datoshijo->id_empresa);
+            if($base->query($estructura)){
+                if($this->delete('id_relacion = '.$id)){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }        
+    }
+    public function obtener($id){
+        $consulta = $this->select()->setIntegrityCheck(false)
+                ->from($this->_name,'*')
+                ->where('id_relacion = ?',$id);
+        return $consulta->query()->fetch(Zend_Db::FETCH_OBJ);
     }
     private function getrelacion($id){
         if(is_numeric($id)){
