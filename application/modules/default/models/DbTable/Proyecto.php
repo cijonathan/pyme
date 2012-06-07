@@ -105,11 +105,15 @@ class Default_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
     }
     public function actualizarestado($id_empresa,$id_estado){
         if(is_numeric($id_empresa) && is_numeric($id_estado)){
+            /* [DATOS] */
+            $id_empresa = (int)$id_empresa;
+            $id_estado = (int)$id_estado;
+            /* [EJECUTAR CONSULTA] */
             if($this->update(array('id_estado'=>$id_estado),'id_empresa = '.$id_empresa)){
                 return true;
-            }else {
+            }else{
                 return false;
-            }            
+            }          
         }
     }
     private function existe($usuario,$base){
