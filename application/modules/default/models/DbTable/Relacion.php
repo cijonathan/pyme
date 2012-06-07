@@ -28,6 +28,22 @@ class Default_Model_DbTable_Relacion extends Zend_Db_Table_Abstract
             return $datos;
         }
     }
+    public function listarelacion(){
+        $consulta = $this->select()->setIntegrityCheck(false)
+                ->from(array('r'=>'modulo_relacion_tipo'),array('id_relacion'=>'r.id_tipo','nombre_relacion'=>'r.nombre_tipo'))  
+                ->order('r.nombre_tipo ASC');
+        return $this->fetchAll($consulta);
+    }    
+    public function agregar($datos){
+        if(is_array($datos)){
+            $base = $this->base();
+            if($base->insert('modulo_relacion_tipo', $datos)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
     public function eliminar($id){
         if(is_numeric($id)){   
             /* [DATOS] */

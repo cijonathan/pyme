@@ -1,13 +1,13 @@
 <?php
 
-class Default_Model_DbTable_Estado extends Zend_Db_Table_Abstract
+class Default_Model_DbTable_Cardinalidad extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'estado_sistema';
+    protected $_name = 'modulo_relacion_cardinalidad';
     
     public function listar(){
         $consulta = $this->select()->setIntegrityCheck(false)
-                ->from(array('e'=>$this->_name),array('id_estado'=>'e.id_estado','nombre_estado'=>'e.nombre_estado'))  
-                ->order('e.nombre_estado ASC');
+                ->from(array('c'=>$this->_name),array('id_cardinalidad'=>'c.id_cardinalidad','nombre_cardinalidad'=>'c.nombre_cardinalidad'))  
+                ->order('c.nombre_cardinalidad ASC');
         return $this->fetchAll($consulta);
     }
     public function agregar($datos){
@@ -21,7 +21,7 @@ class Default_Model_DbTable_Estado extends Zend_Db_Table_Abstract
     }
     public function eliminar($id){
         if(is_numeric($id)){
-            if($this->delete('id_estado = '.$id)){
+            if($this->delete('id_cardinalidad = '.$id)){
                 return true;
             }else{
                 return false;

@@ -11,6 +11,10 @@ class TableroController extends Zend_Controller_Action
         /* [TITLE] */       
         $this->view->headTitle()->prepend('Tablero - ');         
     }
+    public function actualizacionesAction(){
+        /* [TITLE] */       
+        $this->view->headTitle()->prepend('Actualizaciones - ');          
+    }
     public function cerrarAction(){
         /* [DESAHIBILITAR LAYOUT y VIEW] */
         $this->_helper->layout()->disableLayout();
@@ -22,5 +26,6 @@ class TableroController extends Zend_Controller_Action
         /* [REDIRECCIONAR] */
         $this->_redirect('/');             
     }
+    public function topAction(){}    
     
 }

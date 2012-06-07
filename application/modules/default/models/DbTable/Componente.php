@@ -25,6 +25,24 @@ class Default_Model_DbTable_Componente extends Zend_Db_Table_Abstract
             return $this->fetchAll($consulta);
         }
     }
+    public function agregarcomponente($datos){
+        if(is_array($datos)){
+            if($this->insert($datos)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
+    public function eliminarcomponente($id){
+        if(is_numeric($id)){
+            if($this->delete('id_componente = '.$id)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }    
     public function agregar($datos){
         if(is_array($datos)){
             $datos = (object)$datos;

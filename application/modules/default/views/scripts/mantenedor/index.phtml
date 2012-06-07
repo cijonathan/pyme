@@ -1,0 +1,17 @@
+<?php echo $this->action('top','mantenedor','default');?>
+<div class="well">
+    <h3>Listado de mantenedores</h3>
+    <h3><small>Estos mantenedores son esenciales para la plataforma</small></h3><br />
+    <strong>Generales</strong><br />
+    <a href="<?php echo $this->url(array('module'=>'default','controller'=>'mantenedor','action'=>'estado'),'',true);?>">Estados</a><br />
+    <a href="<?php echo $this->url(array('module'=>'default','controller'=>'mantenedor','action'=>'idioma'),'',true);?>">Idiomas</a><br />
+    <a href="<?php echo $this->url(array('module'=>'default','controller'=>'mantenedor','action'=>'componente'),'',true);?>">Componentes</a><br /><br />
+    <strong>Modulos</strong><br />
+    <a href="<?php echo $this->url(array('module'=>'default','controller'=>'mantenedor','action'=>'cardinalidad'),'',true);?>">Cardinalidad</a><br />
+    <a href="#">Relación</a><br /><br />
+    <strong>#Campo</strong><br />
+    <a href="#">Tipos</a><br />
+    <a href="#">Validaciones</a><br /><br />
+    <strong>#Usuario</strong><br />
+    <a href="#">Tipos</a><br />
+</div>

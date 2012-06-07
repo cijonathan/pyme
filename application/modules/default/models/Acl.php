@@ -15,6 +15,7 @@ class Model_Acl  extends Zend_Acl
         $this->add(new Zend_Acl_Resource('default:tablero'));        
         $this->add(new Zend_Acl_Resource('default:permiso'));  
         $this->add(new Zend_Acl_Resource('default:proyecto'));  
+        $this->add(new Zend_Acl_Resource('default:mantenedor'));  
         $this->add(new Zend_Acl_Resource('default:usuario'));  
       
         # [PERMISOS]

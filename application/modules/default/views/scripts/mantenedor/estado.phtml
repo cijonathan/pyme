@@ -1,0 +1,43 @@
+<?php echo $this->action('top','mantenedor','default');?>
+<ul class="breadcrumb">
+    <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'tablero','action'=>'index'),'',true);?>">Tablero</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'mantenedor','action'=>'index'),'',true);?>">Mantenedores</a> <span class="divider">/</span></li>
+    <li class="active">Estado</li>
+</ul>
+<div class="span4">
+    <div class="well">
+        <h4>Crear estado</h4>
+        <?php echo $this->formulario;?>
+    </div>
+</div>
+<div class="span7">
+    <?php if($this->error) :?>
+        <div class="alert alert-error">
+            <a class="close" data-dismiss="alert" href="#">&times;</a>
+            <h2>¡Avispate!</h2>Esta acción no se pudo ejecutar.
+        </div>   
+    <?php elseif($this->exito) :?>   
+        <div class="alert alert-success">
+            <a class="close" data-dismiss="alert" href="#">&times;</a>
+            <h2>¡Seco!</h2>Se completo exitosamente la operación solicitada.</strong>
+        </div>        
+    <?php endif;?>     
+    <table class="table table-striped table-bordered table-condensed">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th class="span1">Acciones</th>            
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($this->datos as $retorno) :?>            
+            <tr>
+                <td><?php echo $retorno->nombre_estado;?></td>
+                <td>
+                    <a class="btn btn-danger btn-mini" href="<?php echo $this->url(array('module'=>'default','controller'=>'mantenedor','action'=>'eliminaestado','id'=>$retorno->id_estado),'',true);?>">Borrar</a>
+                </td>
+            </tr>
+            <?php endforeach;?>
+        </tbody>
+    </table>    
+</div>
