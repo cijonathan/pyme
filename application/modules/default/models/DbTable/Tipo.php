@@ -12,5 +12,23 @@ class Default_Model_DbTable_Tipo extends Zend_Db_Table_Abstract
                 ->order('t.nombre_tipo ASC');
         return $this->fetchAll($consulta);
     }
+    public function eliminar($id){
+        if(is_numeric($id)){
+            if($this->delete('id_tipo = '.$id)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }    
+    public function agregar($datos){
+        if(is_array($datos)){
+            if($this->insert($datos)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }    
     
 }

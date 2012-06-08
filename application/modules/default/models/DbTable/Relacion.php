@@ -33,6 +33,16 @@ class Default_Model_DbTable_Relacion extends Zend_Db_Table_Abstract
                 ->from(array('r'=>'modulo_relacion_tipo'),array('id_relacion'=>'r.id_tipo','nombre_relacion'=>'r.nombre_tipo'))  
                 ->order('r.nombre_tipo ASC');
         return $this->fetchAll($consulta);
+    }   
+    public function eliminarelacion($id){
+        if(is_numeric($id)){
+            $base = $this->base();
+            if($base->delete('modulo_relacion_tipo','id_tipo = '.$id)){
+                return true;
+            }else{
+                return false;
+            }
+        }
     }    
     public function agregar($datos){
         if(is_array($datos)){

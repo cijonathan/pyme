@@ -230,7 +230,7 @@ class MantenedorController extends Zend_Controller_Action
         $this->view->error = $error_campo->error;       
         $error_campo->setExpirationSeconds(1);        
         /* [TITLE] */
-        $this->view->headTitle()->prepend('Cardinalidad - Generales - ');  
+        $this->view->headTitle()->prepend('Relación - Generales - ');  
         /* [LISTAR] */
         $relacion = new Default_Model_DbTable_Relacion();
         $this->view->datos = $relacion->listarelacion();
@@ -253,6 +253,184 @@ class MantenedorController extends Zend_Controller_Action
                 }
             }   
         }        
+    }   
+    public function eliminarelacionAction(){
+        /* [DESAHIBILITAR LAYOUT y VIEW] */
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);  
+        /* [PARAMETROS] */
+        $id = $this->_getParam('id',0);     
+        /* [PROCESAR] */
+        $relacion = new Default_Model_DbTable_Relacion();
+        if($relacion->eliminarelacion($id)){
+            /* [EXITO] */
+            $exito = new Zend_Session_Namespace("exito");
+            $exito->mensaje = true;   
+            /* [REDIRECCIONAR] */
+            $this->_redirect('/mantenedor/relacion/');              
+        }else{
+            $this->view->error = true;
+        }
+        
+    } 
+    public function tiposAction(){
+        /* [EXITO DE ELIMINACION DE CAMPO] */
+        $exito = new Zend_Session_Namespace("exito");        
+        $this->view->exito = $exito->mensaje;       
+        $exito->setExpirationSeconds(1);
+        /* [ERROR DE ELIMINACION DE CAMPO] */
+        $error_campo = new Zend_Session_Namespace("error_campo");        
+        $this->view->error = $error_campo->error;       
+        $error_campo->setExpirationSeconds(1);        
+        /* [TITLE] */
+        $this->view->headTitle()->prepend('Tipos - Campos - ');  
+        /* [LISTAR] */
+        $tipo = new Default_Model_DbTable_Tipo();
+        $this->view->datos = $tipo->listar();
+        /* [FORMULARIO] */
+        $formulario = new Default_Form_Crear();
+        $this->view->formulario = $formulario;
+        /* [PROCESAR FORMULARIO] */
+        $respuesta = $this->getRequest();
+        if($respuesta->isPost()){
+            if($formulario->isValid($this->_request->getPost())){ 
+                /* [DATOS] */
+                if($tipo->agregar(array('nombre_tipo'=>$formulario->getValue('nombre_item')))){
+                    /* [EXITO] */
+                    $exito = new Zend_Session_Namespace("exito");
+                    $exito->mensaje = true;   
+                    /* [REDIRECCIONAR] */
+                    $this->_redirect('/mantenedor/tipos/');                 
+                }else{
+                    $this->view->error = true;                    
+                }
+            }   
+        }        
+    }    
+    public function eliminatipoAction(){
+        /* [DESAHIBILITAR LAYOUT y VIEW] */
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);  
+        /* [PARAMETROS] */
+        $id = $this->_getParam('id',0);     
+        /* [PROCESAR] */
+        $tipo = new Default_Model_DbTable_Tipo();
+        if($tipo->eliminar($id)){
+            /* [EXITO] */
+            $exito = new Zend_Session_Namespace("exito");
+            $exito->mensaje = true;   
+            /* [REDIRECCIONAR] */
+            $this->_redirect('/mantenedor/tipos/');              
+        }else{
+            $this->view->error = true;
+        }
+        
+    }    
+    public function validacionAction(){
+        /* [EXITO DE ELIMINACION DE CAMPO] */
+        $exito = new Zend_Session_Namespace("exito");        
+        $this->view->exito = $exito->mensaje;       
+        $exito->setExpirationSeconds(1);
+        /* [ERROR DE ELIMINACION DE CAMPO] */
+        $error_campo = new Zend_Session_Namespace("error_campo");        
+        $this->view->error = $error_campo->error;       
+        $error_campo->setExpirationSeconds(1);        
+        /* [TITLE] */
+        $this->view->headTitle()->prepend('Validaciones - Campos - ');  
+        /* [LISTAR] */
+        $validacion = new Default_Model_DbTable_Validacion();
+        $this->view->datos = $validacion->listar();
+        /* [FORMULARIO] */
+        $formulario = new Default_Form_Crear();
+        $this->view->formulario = $formulario;
+        /* [PROCESAR FORMULARIO] */
+        $respuesta = $this->getRequest();
+        if($respuesta->isPost()){
+            if($formulario->isValid($this->_request->getPost())){ 
+                /* [DATOS] */
+                if($validacion->agregar(array('nombre_validacion'=>$formulario->getValue('nombre_item')))){
+                    /* [EXITO] */
+                    $exito = new Zend_Session_Namespace("exito");
+                    $exito->mensaje = true;   
+                    /* [REDIRECCIONAR] */
+                    $this->_redirect('/mantenedor/validacion/');                 
+                }else{
+                    $this->view->error = true;                    
+                }
+            }   
+        }        
+    }      
+    public function eliminavalidacionAction(){
+        /* [DESAHIBILITAR LAYOUT y VIEW] */
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);  
+        /* [PARAMETROS] */
+        $id = $this->_getParam('id',0);     
+        /* [PROCESAR] */
+        $validacion = new Default_Model_DbTable_Validacion();
+        if($validacion->eliminar($id)){
+            /* [EXITO] */
+            $exito = new Zend_Session_Namespace("exito");
+            $exito->mensaje = true;   
+            /* [REDIRECCIONAR] */
+            $this->_redirect('/mantenedor/validacion/');              
+        }else{
+            $this->view->error = true;
+        }
+        
+    }      
+    public function usuariotipoAction(){
+        /* [EXITO DE ELIMINACION DE CAMPO] */
+        $exito = new Zend_Session_Namespace("exito");        
+        $this->view->exito = $exito->mensaje;       
+        $exito->setExpirationSeconds(1);
+        /* [ERROR DE ELIMINACION DE CAMPO] */
+        $error_campo = new Zend_Session_Namespace("error_campo");        
+        $this->view->error = $error_campo->error;       
+        $error_campo->setExpirationSeconds(1);        
+        /* [TITLE] */
+        $this->view->headTitle()->prepend('Tipos - Usuarios - ');  
+        /* [LISTAR] */
+        $usuario = new Default_Model_DbTable_Usuario();
+        $this->view->datos = $usuario->listartipo();
+        /* [FORMULARIO] */
+        $formulario = new Default_Form_Crear();
+        $this->view->formulario = $formulario;
+        /* [PROCESAR FORMULARIO] */
+        $respuesta = $this->getRequest();
+        if($respuesta->isPost()){
+            if($formulario->isValid($this->_request->getPost())){ 
+                /* [DATOS] */
+                if($usuario->agregartipo(array('nombre_tipo'=>$formulario->getValue('nombre_item')))){
+                    /* [EXITO] */
+                    $exito = new Zend_Session_Namespace("exito");
+                    $exito->mensaje = true;   
+                    /* [REDIRECCIONAR] */
+                    $this->_redirect('/mantenedor/usuariotipo/');                 
+                }else{
+                    $this->view->error = true;                    
+                }
+            }   
+        }        
+    } 
+    public function eliminausuariotipoAction(){
+        /* [DESAHIBILITAR LAYOUT y VIEW] */
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);  
+        /* [PARAMETROS] */
+        $id = $this->_getParam('id',0);     
+        /* [PROCESAR] */
+        $usuario = new Default_Model_DbTable_Usuario();
+        if($usuario->eliminartipo($id)){
+            /* [EXITO] */
+            $exito = new Zend_Session_Namespace("exito");
+            $exito->mensaje = true;   
+            /* [REDIRECCIONAR] */
+            $this->_redirect('/mantenedor/usuariotipo/');              
+        }else{
+            $this->view->error = true;
+        }
+        
     }      
     public function topAction(){}
 }

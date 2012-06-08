@@ -56,5 +56,40 @@ class Default_Model_DbTable_Usuario extends Zend_Db_Table_Abstract
             }
         }
     }
+    public function listartipo(){
+        $consulta = $this->select()->setIntegrityCheck(false)
+                ->from(array('u'=>'usuario_tipo'),
+                        array('id_tipo'=>'u.id_tipo',
+                            'nombre_tipo'=>'u.nombre_tipo'))  
+                ->order('u.nombre_tipo ASC');
+        return $this->fetchAll($consulta);
+    }
+    public function eliminartipo($id){
+        if(is_numeric($id)){
+            $base = $this->base();            
+            if($base->delete('usuario_tipo','id_tipo = '.$id)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }    
+    public function agregartipo($datos){
+        if(is_array($datos)){
+            $base = $this->base();
+            if($base->insert('usuario_tipo',$datos)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }  
+    private function base(){
+        /* [BASE DE DATOS PERSONALIZADA] */
+        $config = new Zend_Config_Ini('../application/configs/application.ini', 'production');
+        $db = Zend_Db::factory('Pdo_Mysql', $config->resources->db->params);
+        $db->setFetchMode(Zend_Db::FETCH_OBJ);        
+        return $db;        
+    }         
 }
 
