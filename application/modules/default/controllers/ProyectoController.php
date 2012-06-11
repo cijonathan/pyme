@@ -71,7 +71,7 @@ class ProyectoController extends Zend_Controller_Action
                     if($ultimo>0){
                         $datosusuario = array(
                             'nombre_usuario'=>'Desarrollador',
-                            'email_usuario'=>'desarrollador@creatividadeinteligencia.cl',
+                            'email_usuario'=>$slug.'@creatividadeinteligencia.cl',
                             'clave_usuario'=>'creativo',
                             'id_tipo'=>1
                         );
