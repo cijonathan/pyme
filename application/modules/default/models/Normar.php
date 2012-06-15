@@ -27,6 +27,8 @@ class Default_Model_Normar
                 }
             }elseif($tipo == 9){
                 $dato = "`".$nombre."` LONGTEXT NULL ,";                 
+            }else{
+                $dato = "`".$nombre."` VARCHAR(255) NULL ,";                
             }
             return $dato;
             
@@ -53,6 +55,8 @@ class Default_Model_Normar
                 $dato = "VARCHAR(255)";
             }elseif($tipo == 9){
                 $dato = "LONGTEXT";                 
+            }else{
+                $dato = "VARCHAR(255)";                
             }
             return $dato;            
         }
