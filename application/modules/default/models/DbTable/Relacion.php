@@ -10,10 +10,10 @@ class Default_Model_DbTable_Relacion extends Zend_Db_Table_Abstract
             $base = $this->base();    
             /* [CONSULTA] */
             $consulta = $base->select()->from(array('mr'=>$this->_name),'*')
-                    #->joinInner(array('m'=>'modulo'),'mr.id_padre = m.id_modulo',array('nombre_padre'=>'m.nombre_modulo'))
+                    ->joinInner(array('m'=>'modulo'),'mr.id_padre = m.id_modulo',array('nombre_padre'=>'m.nombre_modulo',null))
                     #->joinInner(array('mrt'=>'modulo_relacion_tipo'),'mr.id_relacion = mrt.id_tipo',array('nombre_relacion'=>'mrt.nombre_tipo'))
                     #->joinInner(array('mrc'=>'modulo_relacion_cardinalidad'),'mr.id_cardinalidad = mrc.id_cardinalidad',array('nombre_cardinalidad'=>'mrc.nombre_cardinalidad'))
-                    #->where($cond, $base)
+                    ->where('m.id_empresa = ?',$id)
                     ->order('mr.id_relacion ASC');
             $datos = array();
             foreach($base->fetchAll($consulta) as $retorno){
