@@ -109,6 +109,7 @@ class Default_Model_DbTable_Componente extends Zend_Db_Table_Abstract
                 $estructura = "CREATE  TABLE IF NOT EXISTS `".$datosproyecto->basededatos_empresa."`.`".$datosmodulo->nombre_modulo_slug."_galeria` (";
                 $estructura .="`id_galeria` INT(11) NULL  AUTO_INCREMENT,";
                 $estructura .="`id_".$datosmodulo->nombre_modulo_slug."` INT(11) NULL,";
+                $estructura .="`id_tipo` INT(11) NULL,";
                 $estructura .="`descripcion_galeria` VARCHAR(255) NULL,";
                 $estructura .="`ruta_chica_galeria` VARCHAR(255) NULL,";
                 $estructura .="`ruta_mediana_galeria` VARCHAR(255) NULL,";
