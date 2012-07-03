@@ -114,6 +114,7 @@ class Default_Model_DbTable_Componente extends Zend_Db_Table_Abstract
                 $estructura .="`ruta_chica_galeria` VARCHAR(255) NULL,";
                 $estructura .="`ruta_mediana_galeria` VARCHAR(255) NULL,";
                 $estructura .="`ruta_grande_galeria` VARCHAR(255) NULL,";
+                $estructura .="`orden_galeria` INT(11) NULL,";
                 $estructura .="  PRIMARY KEY (`id_galeria`),";
                 /* [CLAVE FOREANA]*/
                 $estructura .="INDEX `fk_".$datosmodulo->nombre_modulo_slug."_relacion_".$datosmodulo->nombre_modulo_slug."_galeria` (`id_".$datosmodulo->nombre_modulo_slug."` ASC) ,";
@@ -128,7 +129,8 @@ class Default_Model_DbTable_Componente extends Zend_Db_Table_Abstract
                 $estructura .="`nombre_archivo` VARCHAR(255) NULL,";                
                 $estructura .="`peso_archivo` VARCHAR(255) NULL,";                
                 $estructura .="`formato_archivo` VARCHAR(255) NULL,";                
-                $estructura .="`ruta_archivo` VARCHAR(255) NULL,";                
+                $estructura .="`ruta_archivo` VARCHAR(255) NULL,";  
+                $estructura .="`orden_archivo` INT(11) NULL,";                
                 $estructura .="  PRIMARY KEY (`id_archivo`),";
                 /* [CLAVE FOREANA]*/
                 $estructura .="INDEX `fk_".$datosmodulo->nombre_modulo_slug."_relacion_".$datosmodulo->nombre_modulo_slug."_archivo` (`id_".$datosmodulo->nombre_modulo_slug."` ASC) ,";
