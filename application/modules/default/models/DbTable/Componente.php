@@ -150,7 +150,6 @@ class Default_Model_DbTable_Componente extends Zend_Db_Table_Abstract
                 $estructura .=" ON DELETE NO ACTION ON UPDATE NO ACTION";                
             }   
             $estructura .= ") ENGINE=MyISAM DEFAULT CHARSET=utf8;";
-            echo $estructura; exit;
             /* [EJECUTAR CONSULTA] */
             $base = $this->basepersonalizado($datosproyecto->id_empresa);
             if($base->query($estructura)){

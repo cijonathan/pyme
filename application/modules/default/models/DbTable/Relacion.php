@@ -171,20 +171,20 @@ class Default_Model_DbTable_Relacion extends Zend_Db_Table_Abstract
                 /* [CREACION DE CAMPO] */
                 $estructura = "ALTER TABLE `".$modulohijo->nombre_modulo_slug."` ADD `id_".$modulopadre->nombre_modulo_slug."` INT NULL AFTER `".$campo_final."`;";                
                 $estructura .= "ALTER TABLE `".$modulohijo->nombre_modulo_slug."` ";
-                $estructura .= "ADD CONSTRAINT `fk_".$modulohijo->nombre_modulo_slug."_".$modulopadre->nombre_modulo_slug."` FOREIGN KEY (`id_".$modulopadre->nombre_modulo_slug."`) REFERENCES `".$modulopadre->nombre_modulo_slug."` (`id_".$modulopadre->nombre_modulo_slug."`) ON DELETE CASCADE ON UPDATE CASCADE;";
+                $estructura .= "ADD CONSTRAINT `fk_".substr($modulohijo->nombre_modulo_slug."_".$modulopadre->nombre_modulo_slug,0,30)."` FOREIGN KEY (`id_".$modulopadre->nombre_modulo_slug."`) REFERENCES `".$modulopadre->nombre_modulo_slug."` (`id_".$modulopadre->nombre_modulo_slug."`) ON DELETE CASCADE ON UPDATE CASCADE;";
             }elseif($cardinalidad == 2){
                 $estructura = "CREATE  TABLE IF NOT EXISTS `".$datosempresa->basededatos_empresa."`.`".$modulopadre->nombre_modulo_slug."_has_".$modulohijo->nombre_modulo_slug."` (";
                 $estructura .= "`id_".$modulopadre->nombre_modulo_slug."` INT NULL ,";
                 $estructura .= "`id_".$modulohijo->nombre_modulo_slug."` INT NULL ,";
                 $estructura .= " PRIMARY KEY (`id_".$modulohijo->nombre_modulo_slug."`, `id_".$modulopadre->nombre_modulo_slug."`) ,";
-                $estructura .= " INDEX `fk_".$modulohijo->nombre_modulo_slug."_".$modulopadre->nombre_modulo_slug."` (`id_".$modulopadre->nombre_modulo_slug."` ASC) ,";
-                $estructura .= " INDEX `fk_".$modulopadre->nombre_modulo_slug."_".$modulohijo->nombre_modulo_slug."` (`id_".$modulohijo->nombre_modulo_slug."` ASC) ,";
-                $estructura .= " CONSTRAINT `fk_".$modulohijo->nombre_modulo_slug."_".$modulopadre->nombre_modulo_slug."`";
+                $estructura .= " INDEX `fk_".substr($modulohijo->nombre_modulo_slug."_".$modulopadre->nombre_modulo_slug,0,30)."` (`id_".$modulopadre->nombre_modulo_slug."` ASC) ,";
+                $estructura .= " INDEX `fk_".substr($modulopadre->nombre_modulo_slug."_".$modulohijo->nombre_modulo_slug,0,30)."` (`id_".$modulohijo->nombre_modulo_slug."` ASC) ,";
+                $estructura .= " CONSTRAINT `fk_".substr($modulohijo->nombre_modulo_slug."_".$modulopadre->nombre_modulo_slug,0,30)."`";
                     $estructura .= " FOREIGN KEY (`id_".$modulohijo->nombre_modulo_slug."` )";
                     $estructura .= " REFERENCES `".$datosempresa->basededatos_empresa."`.`".$modulohijo->nombre_modulo_slug."` (`id_".$modulohijo->nombre_modulo_slug."` )";
                     $estructura .= " ON DELETE NO ACTION";
                     $estructura .= " ON UPDATE NO ACTION,";
-                $estructura .= " CONSTRAINT `fk_".$modulopadre->nombre_modulo_slug."_".$modulohijo->nombre_modulo_slug."`";
+                $estructura .= " CONSTRAINT `fk_".substr($modulopadre->nombre_modulo_slug."_".$modulohijo->nombre_modulo_slug,0,30)."`";
                     $estructura .= " FOREIGN KEY (`id_".$modulopadre->nombre_modulo_slug."` )";
                     $estructura .= " REFERENCES `".$datosempresa->basededatos_empresa."`.`".$modulopadre->nombre_modulo_slug."` (`id_".$modulopadre->nombre_modulo_slug."` )";
                     $estructura .= " ON DELETE NO ACTION";
