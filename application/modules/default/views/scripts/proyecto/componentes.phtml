@@ -32,7 +32,7 @@
         <thead>
             <tr>
                 <th>Nombre</th>
-                <th class="span1">Acciones</th>            
+                <th class="span2">Acciones</th>            
             </tr>
         </thead>
         <tbody>
@@ -40,10 +40,31 @@
             <tr>
                 <td><?php echo $retorno->nombre_componente;?></td>
                 <td>
-                    <a class="btn btn-danger btn-mini" href="<?php echo $this->url(array('module'=>'default','controller'=>'proyecto','action'=>'eliminacomponente','id'=>$this->modulos->id_empresa,'idmodulo'=>$this->modulos->id_modulo,'idcomponente'=>$retorno->id_componente),'',true);?>">Borrar</a>                
+                    <div class="btn-group">
+                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="icon-pencil"></i> Opciones <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'proyecto','action'=>'eliminacomponente','id'=>$this->modulos->id_empresa,'idmodulo'=>$this->modulos->id_modulo,'idcomponente'=>$retorno->id_componente),'',true);?>"><i class="icon-trash"></i> Eliminar</a></li>
+                        <?php if($retorno->id_componente == 1):?>
+                            <li><a href="#myModal" data-toggle="modal"><i class="icon-camera"></i> Tamaños</a></li>
+                        <?php endif;?>
+                    </ul>
+                    </div>                       
                 </td>
             </tr>
             <?php endforeach;?>
         </tbody>
     </table>
-</div>
+</div>   
+<div class="modal" id="myModal" style="display: none">
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">×</a>
+        <h3>Modificaciones tamaño de imágenes</h3>
+        <h3><small>Esta opción se vera reflejada al momento de agregar una fotografía en algun modulo que tenga la componente</small></h3>
+    </div>
+    <div class="modal-body">
+        <?php echo $this->formulario_tamano;?>
+        <div class="clearfix"></div>
+    </div>
+</div>  

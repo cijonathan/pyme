@@ -17,7 +17,7 @@ class Default_Form_Componente extends Zend_Form
             $componente->addMultiOption($retorno->id_componente,$retorno->nombre_componente);            
         }
         
-        $boton = new Zend_Form_Element_Submit('Enviar');
+        $boton = new Zend_Form_Element_Submit('submit_form_componente');
         $boton->setAttrib('class','btn btn-primary')
               ->setLabel('Agregar');
 

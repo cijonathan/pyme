@@ -307,22 +307,43 @@ class ProyectoController extends Zend_Controller_Action
         /* [FORMULARIO] */
         $formulario = new Default_Form_Componente();
         $this->view->formulario = $formulario;
+        /* [FORMULARIO TAMAÑO] */
+        $formulario_tamano = new Default_Form_Tamano();        
+        $this->view->formulario_tamano = $formulario_tamano;
+        /* [OBTENER TAMAÑO] */
+        $tamano = new Default_Model_DbTable_Tamano();
+        $total = $tamano->obtener($id_modulo);
+        if($total>0) $formulario_tamano->populate($total);          
         /* [PROCESAR FORMULARIO] */
         $respuesta = $this->getRequest();
         if($respuesta->isPost()){
-            if($formulario->isValid($this->_request->getPost())){
-                $id_componente = $formulario->getValue('nombre_componente');
-                $datos = array(
-                    'id_modulo'=>$id_modulo,
-                    'id_componente'=>$id_componente
-                );
-                $componente = new Default_Model_DbTable_Componente();
-                if($componente->agregar($datos)){
-                    $this->view->exito = true;
-                }else{
-                    $this->view->error = true;
-                }
-            }   
+            if($this->_request->getPost('submit_form_componente', false)){
+                if($formulario->isValid($this->_request->getPost())){ 
+                    $id_componente = $formulario->getValue('nombre_componente');
+                    $datos = array(
+                        'id_modulo'=>$id_modulo,
+                        'id_componente'=>$id_componente
+                    );
+                    $componente = new Default_Model_DbTable_Componente();
+                    if($componente->agregar($datos)){
+                        $this->view->exito = true;
+                    }else{
+                        $this->view->error = true;
+                    }                    
+                }else return false;                                
+            }elseif($this->_request->getPost('submit_form_tamano', false)){
+                if($formulario_tamano->isValid($this->_request->getPost())){ 
+                    $datos_tamano = $formulario_tamano->getValues();
+                    if($tamano->actualizar($datos_tamano, $id_modulo)){
+                        $this->view->exito = true;                        
+                    }else{
+                        $this->view->error = true;                        
+                    }
+                }else return false;               
+            }            
+            /*if($formulario->isValid($this->_request->getPost())){
+                
+            }              */             
         }
         /* [LISTAR COMPONENTE] */
         $componente = new Default_Model_DbTable_Componente();

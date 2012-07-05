@@ -51,7 +51,13 @@ class Default_Model_DbTable_Componente extends Zend_Db_Table_Abstract
                 $datos = (array)$datos;
                 if($base->insert('modulo_has_componente', $datos)){
                     if($this->crearRelacion($datos)){
-                        return true;
+                        $tamano = new Default_Model_DbTable_Tamano();
+                        if($tamano->inicial($datos['id_modulo'])){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                        exit;
                     }else{
                         return false;
                     }
@@ -78,7 +84,10 @@ class Default_Model_DbTable_Componente extends Zend_Db_Table_Abstract
                 $basepersonalizada = $this->basepersonalizado($datosproyecto->id_empresa);                
                 if($datos->id_componente == 1){
                     if($basepersonalizada->query("DROP TABLE ".$datosmodulo->nombre_modulo_slug."_galeria")){
-                        return true;
+                        $tamano = new Default_Model_DbTable_Tamano();
+                        if($tamano->eliminar($datos->id_modulo)){
+                            return true;
+                        }else return false;
                     }else{
                         return false;
                     }
@@ -117,11 +126,12 @@ class Default_Model_DbTable_Componente extends Zend_Db_Table_Abstract
                 $estructura .="`orden_galeria` INT(11) NULL,";
                 $estructura .="  PRIMARY KEY (`id_galeria`),";
                 /* [CLAVE FOREANA]*/
-                $estructura .="INDEX `fk_".$datosmodulo->nombre_modulo_slug."_relacion_".$datosmodulo->nombre_modulo_slug."_galeria` (`id_".$datosmodulo->nombre_modulo_slug."` ASC) ,";
-                $estructura .="CONSTRAINT `fk_".$datosmodulo->nombre_modulo_slug."_relacion_".$datosmodulo->nombre_modulo_slug."_galeria`";
+                $estructura .="INDEX `fk_".substr($datosmodulo->nombre_modulo_slug."_relacion_".$datosmodulo->nombre_modulo_slug,0,50)."_galeria` (`id_".$datosmodulo->nombre_modulo_slug."` ASC) ,";
+                $estructura .="CONSTRAINT `fk_".substr($datosmodulo->nombre_modulo_slug."_relacion_".$datosmodulo->nombre_modulo_slug,0,50)."_galeria`";
                 $estructura .="FOREIGN KEY (`id_".$datosmodulo->nombre_modulo_slug."` )";
                 $estructura .="REFERENCES `".$datosproyecto->basededatos_empresa."`.`".$datosmodulo->nombre_modulo_slug."` (`id_".$datosmodulo->nombre_modulo_slug."` )";
                 $estructura .=" ON DELETE NO ACTION ON UPDATE NO ACTION";
+                
             }elseif($datos->id_componente == 2){
                 $estructura = "CREATE  TABLE IF NOT EXISTS `".$datosproyecto->basededatos_empresa."`.`".$datosmodulo->nombre_modulo_slug."_archivo` (";
                 $estructura .="`id_archivo` INT(11) NULL  AUTO_INCREMENT,";
@@ -133,13 +143,14 @@ class Default_Model_DbTable_Componente extends Zend_Db_Table_Abstract
                 $estructura .="`orden_archivo` INT(11) NULL,";                
                 $estructura .="  PRIMARY KEY (`id_archivo`),";
                 /* [CLAVE FOREANA]*/
-                $estructura .="INDEX `fk_".$datosmodulo->nombre_modulo_slug."_relacion_".$datosmodulo->nombre_modulo_slug."_archivo` (`id_".$datosmodulo->nombre_modulo_slug."` ASC) ,";
-                $estructura .="CONSTRAINT `fk_".$datosmodulo->nombre_modulo_slug."_relacion_".$datosmodulo->nombre_modulo_slug."_archivo`";
+                $estructura .="INDEX `fk_".substr($datosmodulo->nombre_modulo_slug."_relacion_".$datosmodulo->nombre_modulo_slug,0,50)."_archivo` (`id_".$datosmodulo->nombre_modulo_slug."` ASC) ,";
+                $estructura .="CONSTRAINT `fk_".substr($datosmodulo->nombre_modulo_slug."_relacion_".$datosmodulo->nombre_modulo_slug,0,50)."_archivo`";
                 $estructura .="FOREIGN KEY (`id_".$datosmodulo->nombre_modulo_slug."` )";
                 $estructura .="REFERENCES `".$datosproyecto->basededatos_empresa."`.`".$datosmodulo->nombre_modulo_slug."` (`id_".$datosmodulo->nombre_modulo_slug."` )";
                 $estructura .=" ON DELETE NO ACTION ON UPDATE NO ACTION";                
             }   
             $estructura .= ") ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+            echo $estructura; exit;
             /* [EJECUTAR CONSULTA] */
             $base = $this->basepersonalizado($datosproyecto->id_empresa);
             if($base->query($estructura)){

@@ -19,7 +19,7 @@ class Model_Acl  extends Zend_Acl
         $this->add(new Zend_Acl_Resource('default:usuario'));  
       
         # [PERMISOS]
-        $this->allow('visitante',array('default:index','default:permiso'));        
+        $this->allow('visitante',array('default:index','default:permiso','default:index'));        
         $this->deny('visitante');
         $this->allow('root');
     }
