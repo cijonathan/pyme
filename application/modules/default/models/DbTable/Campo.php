@@ -50,6 +50,10 @@ class Default_Model_DbTable_Campo extends Zend_Db_Table_Abstract
     }
     public function agregar($datos){
         if(is_array($datos)){
+            /* los <select></select> los "-" los Zend_Form no los acepta */
+            if($datos['id_tipo'] == 3){
+                $datos['nombre_campo_slug'] = str_replace('-','',$datos['nombre_campo_slug']);
+            }            
             if($this->existe($datos['nombre_campo_slug'],$datos['id_modulo'])){
                 if($this->insert($datos)){
                     return true;
@@ -58,7 +62,7 @@ class Default_Model_DbTable_Campo extends Zend_Db_Table_Abstract
                 return false;
             }
         }
-    }
+    }   
     public function eliminar($id_campo,$id_modulo,$id_empresa){       
         if(is_numeric($id_campo) && is_numeric($id_modulo) && is_numeric($id_empresa)){
             /* [ELIMINAR REGISTRO EN PYME] */
