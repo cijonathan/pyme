@@ -199,7 +199,7 @@ class ProyectoController extends Zend_Controller_Action
                 $estado = $formulario->getValue('id_estado');
                 /* [SLUG] */
                 $nombre_slug = new Default_Model_Miscelaneos();
-                $nombre_slug = $nombre_slug->Amigable($nombre);
+                $nombre_slug = str_replace('-','',$nombre_slug->Amigable($nombre));
                 $datos = array(
                     'nombre_campo'=>$nombre,
                     'nombre_campo_slug'=>$nombre_slug,
