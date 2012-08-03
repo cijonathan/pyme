@@ -1,0 +1,19 @@
+<?php echo $this->action('top','proyecto','default');?>
+<ul class="breadcrumb">
+    <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'tablero','action'=>'index'),'',true);?>">Tablero</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'proyecto','action'=>'index'),'',true);?>">Proyectos</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'proyecto','action'=>'index'),'',true);?>">Proyecto: <?php echo $this->datos->nombre_empresa;?></a>  <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'proyecto','action'=>'modulo','id'=>$this->modulos->id_empresa),'',true);?>">Modulos</a>  <span class="divider">/</span></li>    
+    <li class="active">Feed XML de modulo  <strong><?php echo $this->modulos->nombre_modulo;?></strong></li>
+</ul>
+<div class="page-header">     
+    <h3>FEED XML</h3>
+    <h3><small>Activación del XML para creación e integración con las redes sociales del modulo</small></h3>
+</div>
+<div class="well">
+<?php if($this->existe) :?>
+<a href="<?php echo $this->datos->url_feed;?>" target="_blank" class="btn btn-success btn-large"><i class="icon-ok icon-white"></i> ACTIVADO</a>
+<?php else :?>
+<a href="<?php echo $this->url(array('module'=>'default','controller'=>'proyecto','action'=>'activafeed','id'=>$this->modulos->id_empresa,'idmodulo'=>$this->modulos->id_modulo),'',true);?>" class="btn btn-danger btn-large"><i class="icon-ok icon-white"></i> ACTIVAR</a>
+<?php endif; ?>
+</div>

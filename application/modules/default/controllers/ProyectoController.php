@@ -456,6 +456,57 @@ class ProyectoController extends Zend_Controller_Action
         }
         
     }        
+    public function feedAction(){
+        /* [EXITO DESDE OTRO LADO] */
+        $exito = new Zend_Session_Namespace("exito");        
+        $this->view->exito = $exito->mensaje;       
+        $exito->setExpirationSeconds(1);        
+        /* [ERROR DESDE OTRO LADO] */
+        $exito = new Zend_Session_Namespace("error");        
+        $this->view->error = $exito->mensaje;       
+        $exito->setExpirationSeconds(1);        
+        /* [PARAMETROS] */
+        $id_empresa = $this->_getParam('id',0);          
+        $id_modulo = $this->_getParam('idmodulo',0);  
+        /* [OBTENER PROYECTO] */
+        $proyecto = new Default_Model_DbTable_Proyecto();
+        $this->view->datos = $proyecto->obtener($id_empresa);     
+        /* [OBTENER MODULO] */
+        $modulo = new Default_Model_DbTable_Modulo();
+        $datosmodulo = $modulo->obtener($id_modulo);
+        $this->view->modulos = $datosmodulo;    
+        /* ESTADO DE FEED */
+        $feed = new Default_Model_DbTable_Feed();
+        if($feed->existe($id_modulo)>0){
+            $this->view->existe = true;
+        }else{            
+            $this->view->existe = false;
+        }    
+        $this->view->datos = $feed->obtener($id_modulo);
+    }
+    public function activafeedAction(){
+        /* [DESAHIBILITAR LAYOUT y VIEW] */
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        /* [PARAMETROS] */
+        $id_empresa = $this->_getParam('id',0);          
+        $id_modulo = $this->_getParam('idmodulo',0); 
+        /* PROCESAR */
+        $feed = new Default_Model_DbTable_Feed();
+        if($feed->activar($id_modulo)){
+            /* [EXITO] */
+            $exito = new Zend_Session_Namespace("exito");
+            $exito->mensaje = true;            
+            /* [REDIRECCIONAR] */
+            $this->_redirect('proyecto/feed/id/'.$id_empresa.'/idmodulo/'.$id_modulo);               
+        }else{
+            /* [EXITO] */
+            $error = new Zend_Session_Namespace("error");
+            $error->mensaje = true;
+            /* [REDIRECCIONAR] */
+            $this->_redirect('proyecto/feed/id/'.$id_empresa.'/idmodulo/'.$id_modulo);            
+        }
+    }    
     public function estadoAction(){
         /* [DESAHIBILITAR LAYOUT y VIEW] */
         $this->_helper->layout()->disableLayout();

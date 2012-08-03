@@ -36,6 +36,7 @@
                 <ul class="dropdown-menu">
                     <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'proyecto','action'=>'crearcampo','id'=>$retorno->id_empresa,'idmodulo'=>$retorno->id_modulo),'',true);?>"><i class="icon-tag"></i> Campos</a></li>
                     <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'proyecto','action'=>'componentes','id'=>$retorno->id_empresa,'idmodulo'=>$retorno->id_modulo),'',true);?>"><i class="icon-folder-close"></i> Componentes</a></li>
+                    <li><a href="<?php echo $this->url(array('module'=>'default','controller'=>'proyecto','action'=>'feed','id'=>$retorno->id_empresa,'idmodulo'=>$retorno->id_modulo),'',true);?>"><i class="icon-flag"></i> Feed XML</a></li>
                     <li><a href="#myModal<?php echo $retorno->id_modulo;?>" data-toggle="modal"><i class="icon-question-sign"></i> Estado</a></li>
                 </ul>
                 </div>                
