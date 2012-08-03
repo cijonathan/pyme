@@ -148,7 +148,21 @@ class Default_Model_DbTable_Componente extends Zend_Db_Table_Abstract
                 $estructura .="FOREIGN KEY (`id_".$datosmodulo->nombre_modulo_slug."` )";
                 $estructura .="REFERENCES `".$datosproyecto->basededatos_empresa."`.`".$datosmodulo->nombre_modulo_slug."` (`id_".$datosmodulo->nombre_modulo_slug."` )";
                 $estructura .=" ON DELETE NO ACTION ON UPDATE NO ACTION";                
-            }   
+            }elseif($datos->id_componente == 3){
+                $estructura = "CREATE  TABLE IF NOT EXISTS `".$datosproyecto->basededatos_empresa."`.`".$datosmodulo->nombre_modulo_slug."_video` (";
+                $estructura .="`id_video` INT(11) NULL  AUTO_INCREMENT,";
+                $estructura .="`id_".$datosmodulo->nombre_modulo_slug."` INT(11) NULL,";  
+                $estructura .="`nombre_video` VARCHAR(255) NULL,";
+                $estructura .="`url_video` VARCHAR(255) NULL,";                
+                $estructura .="`orden_archivo` INT(11) NULL,";                
+                $estructura .="  PRIMARY KEY (`id_video`),";  
+                /* [CLAVE FOREANA]*/
+                $estructura .="INDEX `fk_".substr($datosmodulo->nombre_modulo_slug."_relacion_".$datosmodulo->nombre_modulo_slug,0,50)."_video` (`id_".$datosmodulo->nombre_modulo_slug."` ASC) ,";
+                $estructura .="CONSTRAINT `fk_".substr($datosmodulo->nombre_modulo_slug."_relacion_".$datosmodulo->nombre_modulo_slug,0,50)."_video`";
+                $estructura .="FOREIGN KEY (`id_".$datosmodulo->nombre_modulo_slug."` )";
+                $estructura .="REFERENCES `".$datosproyecto->basededatos_empresa."`.`".$datosmodulo->nombre_modulo_slug."` (`id_".$datosmodulo->nombre_modulo_slug."` )";
+                $estructura .=" ON DELETE NO ACTION ON UPDATE NO ACTION";                     
+            }
             $estructura .= ") ENGINE=MyISAM DEFAULT CHARSET=utf8;";
             /* [EJECUTAR CONSULTA] */
             $base = $this->basepersonalizado($datosproyecto->id_empresa);
