@@ -15,7 +15,7 @@ class Default_Model_DbTable_Feed extends Zend_Db_Table_Abstract
     }
     public function activar($id_modulo){
         if(is_numeric($id_modulo)){
-            $datos = array('id_modulo'=>$id_modulo,'url_feed'=>'http://cms.hostprimario.com/feed/'.$id_modulo.'/');
+            $datos = array('id_modulo'=>$id_modulo,'url_feed'=>'http://cms.hostprimario.com/feed/id/'.$id_modulo.'/');
             if($this->insert($datos)) return true; else return false;
         }else return false;        
     }
