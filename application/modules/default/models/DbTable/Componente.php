@@ -97,6 +97,12 @@ class Default_Model_DbTable_Componente extends Zend_Db_Table_Abstract
                     }else{
                         return false;
                     }                        
+                }elseif($datos->id_componente == 3){
+                    if($basepersonalizada->query("DROP TABLE ".$datosmodulo->nombre_modulo_slug."_video")){
+                        return true;
+                    }else{
+                        return false;
+                    }                        
                 }else{
                     return false;
                 }
