@@ -24,6 +24,7 @@ class Default_Model_DbTable_Campo extends Zend_Db_Table_Abstract
                 $fila->id_tipo = $retorno->id_tipo;
                 $fila->nombre_estado = $retorno->nombre_estado;
                 $fila->listado_campo = ($retorno->listado_campo == 1)?'Si':'No';
+                $fila->borrar = $this->posibleborrar($retorno->id_campo);
                 $datos[] = $fila;
             }
             return $datos;
@@ -47,6 +48,22 @@ class Default_Model_DbTable_Campo extends Zend_Db_Table_Abstract
             $fila->id_estado = $retorno['id_estado'];            
             return $fila;
         }
+    }
+    public function posibleborrar($id_campo){
+        if(is_numeric($id_campo)){
+            /* OBTENER DATOS CAMPO */
+            $obtener = $this->obtener($id_campo);
+            /* OBTENER DATOS MODULO */
+            $modulo = new Default_Model_DbTable_Modulo();
+            $datosmodulo = $modulo->obtener($obtener->id_modulo);            
+                        
+            /* BASE PERSONALIZADA */
+            $base = $this->basepersonalizado($datosmodulo->id_empresa);
+            $columnas = array_keys($base->describeTable($datosmodulo->nombre_modulo_slug));            
+            if(in_array($obtener->nombre_campo_slug, $columnas)) return true; else return false;
+            
+        }else return false;
+        
     }
     public function agregar($datos){
         if(is_array($datos)){
@@ -97,7 +114,7 @@ class Default_Model_DbTable_Campo extends Zend_Db_Table_Abstract
                 return false;
             }
         }
-    }
+    }   
     public function tabla($id,$tabla){
         if(is_numeric($id) && $id>0 && is_string($tabla)){
             $base = $this->basepersonalizado($id);

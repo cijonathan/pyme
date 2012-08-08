@@ -43,6 +43,7 @@ class Default_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
                 GRANT USAGE ON * . * TO '$usuario'@'%' IDENTIFIED BY '$clave' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0 ;
                 CREATE DATABASE IF NOT EXISTS `$base` ;
                 GRANT ALL PRIVILEGES ON `$usuario` . * TO '$base'@'%';";
+            
             if($conexion->query($resultado)){
                 return true;
             }

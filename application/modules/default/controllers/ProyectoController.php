@@ -326,18 +326,34 @@ class ProyectoController extends Zend_Controller_Action
                     );
                     $componente = new Default_Model_DbTable_Componente();
                     if($componente->agregar($datos)){
-                        $this->view->exito = true;
+                        /* [EXITO] */
+                        $exito = new Zend_Session_Namespace("exito");
+                        $exito->mensaje = true;
+                        /* [REDIRECCIONAR] */
+                        $this->_redirect('proyecto/componentes/id/'.$id_empresa.'/idmodulo/'.$id_modulo);  
                     }else{
-                        $this->view->error = true;
+                        /* [ERROR] */
+                        $exito = new Zend_Session_Namespace("error");
+                        $exito->mensaje = true;
+                        /* [REDIRECCIONAR] */
+                        $this->_redirect('proyecto/componentes/id/'.$id_empresa.'/idmodulo/'.$id_modulo);  
                     }                    
                 }else return false;                                
             }elseif($this->_request->getPost('submit_form_tamano', false)){
                 if($formulario_tamano->isValid($this->_request->getPost())){ 
                     $datos_tamano = $formulario_tamano->getValues();
                     if($tamano->actualizar($datos_tamano, $id_modulo)){
-                        $this->view->exito = true;                        
+                        /* [EXITO] */
+                        $exito = new Zend_Session_Namespace("exito");
+                        $exito->mensaje = true;
+                        /* [REDIRECCIONAR] */
+                        $this->_redirect('proyecto/componentes/id/'.$id_empresa.'/idmodulo/'.$id_modulo);                     
                     }else{
-                        $this->view->error = true;                        
+                        /* [ERROR] */
+                        $exito = new Zend_Session_Namespace("error");
+                        $exito->mensaje = true;
+                        /* [REDIRECCIONAR] */
+                        $this->_redirect('proyecto/componentes/id/'.$id_empresa.'/idmodulo/'.$id_modulo);                      
                     }
                 }else return false;               
             }            

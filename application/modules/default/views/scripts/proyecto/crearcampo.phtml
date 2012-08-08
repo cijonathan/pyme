@@ -57,7 +57,9 @@
                 <td><?php echo $retorno->nombre_validacion;?></td>
                 <td><?php echo $retorno->nombre_estado;?></td>
                 <td>
-                    <a class="btn btn-danger btn-mini" href="<?php echo $this->url(array('module'=>'default','controller'=>'proyecto','action'=>'eliminacampo','id'=>$this->modulos->id_empresa,'idmodulo'=>$this->modulos->id_modulo,'idcampo'=>$retorno->id_campo),'',true);?>">Borrar</a>                
+                    <?php if($retorno->borrar) :?>
+                    <a class="btn btn-danger btn-mini" href="<?php echo $this->url(array('module'=>'default','controller'=>'proyecto','action'=>'eliminacampo','id'=>$this->modulos->id_empresa,'idmodulo'=>$this->modulos->id_modulo,'idcampo'=>$retorno->id_campo),'',true);?>"><i class="icon-trash icon-white"></i></a>                
+                    <?php endif;?>
                 </td>
             </tr>
             <?php endforeach;?>
