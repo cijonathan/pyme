@@ -59,8 +59,10 @@ class Default_Model_DbTable_Campo extends Zend_Db_Table_Abstract
                         
             /* BASE PERSONALIZADA */
             $base = $this->basepersonalizado($datosmodulo->id_empresa);
-            $columnas = array_keys($base->describeTable($datosmodulo->nombre_modulo_slug));            
-            if(in_array($obtener->nombre_campo_slug, $columnas)) return true; else return false;
+            try{
+                $columnas = array_keys($base->describeTable($datosmodulo->nombre_modulo_slug)); 
+                if(in_array($obtener->nombre_campo_slug, $columnas)) return true; else return false;                
+            }catch(Exception $e){return false;}
             
         }else return false;
         
